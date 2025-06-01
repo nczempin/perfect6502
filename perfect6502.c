@@ -176,32 +176,38 @@ initAndResetChip()
 										   vss,
 										   vcc);
 
-	setNode(state, res, 0);
-	setNode(state, clk0, 1);
-	setNode(state, rdy, 1);
-	setNode(state, so, 0);
-	setNode(state, irq, 1);
-	setNode(state, nmi, 1);
+        resetChip(state);
 
-	stabilizeChip(state);
-
-	/* hold RESET for 8 cycles */
-	for (int i = 0; i < 16; i++)
-		step(state);
-
-	/* release RESET */
-	setNode(state, res, 1);
-	recalcNodeList(state);
-
-	cycle = 0;
-
-	return state;
+        return state;
 }
 
 void
 destroyChip(void *state)
 {
     destroyNodesAndTransistors(state);
+}
+
+void
+resetChip(void *state)
+{
+        setNode(state, res, 0);
+        setNode(state, clk0, 1);
+        setNode(state, rdy, 1);
+        setNode(state, so, 0);
+        setNode(state, irq, 1);
+        setNode(state, nmi, 1);
+
+        stabilizeChip(state);
+
+        /* hold RESET for 8 cycles */
+        for (int i = 0; i < 16; i++)
+                step(state);
+
+        /* release RESET */
+        setNode(state, res, 1);
+        recalcNodeList(state);
+
+        cycle = 0;
 }
 
 /************************************************************

@@ -116,11 +116,11 @@ void *state;
 void
 resetChip_test()
 {
-	state = initAndResetChip();
-	for (int i = 0; i < 62; i++)
-		step(state);
+        resetChip(state);
+        for (int i = 0; i < 62; i++)
+                step(state);
 
-	cycle = -1;
+        cycle = -1;
 }
 
 int
@@ -342,9 +342,11 @@ main()
 //printf("[[[%d:k=%d;%x@%x/%x]]]", __LINE__, k, write[writes-1], write_data[writes-1], readDataBus(state));
 									different = YES;
 									break;
-								}
-							}
-						}
+                }
+        }
+        destroyChip(state);
+        return 0;
+}
 					};
 					if (different) /* bus cycles were different */
 						break;
@@ -573,4 +575,7 @@ main()
 			printf("\n");
 		}
 	}
+destroyChip(state);
+return 0;
+
 }
